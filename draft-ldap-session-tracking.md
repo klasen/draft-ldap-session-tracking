@@ -3,7 +3,7 @@ title: "LDAP Session Tracking Control"
 #abbrev: "ldap-session"
 category: info
 
-docname: draft-ldap-session-tracking
+docname: draft-ldap-session-tracking-latest
 submissiontype: IETF  # also: "independent", "editorial", "IAB", or "IRTF"
 number: 3
 date: draft-ldap-session-tracking-date
