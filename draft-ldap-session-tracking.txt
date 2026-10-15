@@ -2,10 +2,11 @@
 
 
 
-Internet Engineering Task Force (IETF)                           M. Wahl
+Independent Submission                                           M. Wahl
 Request for Comments: 3                            Informed Control Inc.
-Category: Informational                                  15 October 2026
-ISSN: 2070-1721
+Category: Informational                                        N. Klasen
+ISSN: 2070-1721                                                 OpenText
+                                                         15 October 2026
 
 
                      LDAP Session Tracking Control
@@ -31,11 +32,12 @@ Status of This Memo
    This document is not an Internet Standards Track specification; it is
    published for informational purposes.
 
-   This document is a product of the Internet Engineering Task Force
-   (IETF).  It has been approved for publication by the Internet
-   Engineering Steering Group (IESG).  Not all documents approved by the
-   IESG are candidates for any level of Internet Standard; see Section 2
-   of RFC 7841.
+   This is a contribution to the RFC Series, independently of any other
+   RFC stream.  The RFC Editor has chosen to publish this document at
+   its discretion and makes no statement about its value for
+   implementation or deployment.  Documents approved for publication by
+   the RFC Editor are not candidates for any level of Internet Standard;
+   see Section 2 of RFC 7841.
 
    Information about the current status of this document, any errata,
    and how to provide feedback on it may be obtained at
@@ -51,10 +53,7 @@ Copyright Notice
    (https://trustee.ietf.org/license-info) in effect on the date of
    publication of this document.  Please review these documents
    carefully, as they describe your rights and restrictions with respect
-   to this document.  Code Components extracted from this document must
-   include Revised BSD License text as described in Section 4.e of the
-   Trust Legal Provisions and are provided without warranty as described
-   in the Revised BSD License.
+   to this document.
 
 Table of Contents
 
@@ -68,6 +67,7 @@ Table of Contents
      3.1.  Formats for use with RADIUS accounting
      3.2.  Format for username accounting
        3.2.1.  Example
+     3.3.  Formats for use with trace context propagation
    4.  Conventions and Definitions
    5.  Security Considerations
    6.  IANA Considerations
@@ -75,7 +75,7 @@ Table of Contents
      7.1.  Normative References
      7.2.  Informative References
    Appendix A.  Acknowledgments
-   Author's Address
+   Authors' Addresses
 
 1.  Introduction
 
@@ -406,6 +406,22 @@ Table of Contents
      0406626c6f676773'H           -- controlValue
    }
 
+3.3.  Formats for use with trace context propagation
+
+   These format can be used in LDAP clients that take part in
+   distributed tracing.
+
+   With formatOID set to 1.3.6.1.4.1.21008.108.63.1.4,
+   sessionTrackingIdentifier SHOULD contain the value of the traceparent
+   header, as defined in Section 3.2 of [W3C-TRACE-CONTEXT-2].
+
+   With formatOID set to 1.3.6.1.4.1.21008.108.63.1.5,
+   sessionTrackingIdentifier SHOULD contain the value of the tracestate
+   header, as defined in Section 3.3 of [W3C-TRACE-CONTEXT-2].
+
+   For either format, sessionSourceIp and sessionSourceName SHOULD be
+   zero length.
+
 4.  Conventions and Definitions
 
    The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
@@ -535,6 +551,11 @@ Table of Contents
               2119 Key Words", BCP 14, RFC 8174, DOI 10.17487/RFC8174,
               May 2017, <https://www.rfc-editor.org/rfc/rfc8174>.
 
+   [W3C-TRACE-CONTEXT-2]
+              W3C, "Trace Context Level 2", W3C Candidate Recommendation
+              Draft, 28 March 2024, <https://www.w3.org/TR/2024/CRD-
+              trace-context-2-20240328/>.
+
    [X690]     ITU-T, "Information technology - ASN.1 encoding rules:
               Specification of Basic Encoding Rules (BER), Canonical
               Encoding Rules (CER) and Distinguished Encoding Rules
@@ -552,8 +573,13 @@ Appendix A.  Acknowledgments
    This control was inspired by conversations with Greg Lavender.  Neil
    Wilson provided useful feedback on this document.
 
-Author's Address
+Authors' Addresses
 
    M. Wahl
    Informed Control Inc.
    Email: Mark.Wahl@informed-control.com
+
+
+   Norbert Klasen
+   OpenText
+   Email: <nklasen@opentext.com>
