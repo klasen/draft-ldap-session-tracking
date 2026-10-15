@@ -4,7 +4,7 @@ title: "LDAP Session Tracking Control"
 category: info
 
 docname: draft-ldap-session-tracking-latest
-submissiontype: IETF  # also: "independent", "editorial", "IAB", or "IRTF"
+submissiontype: independent  # also: "independent", "editorial", "IAB", or "IRTF"
 number: 3
 date: draft-ldap-session-tracking-date
 # consensus: true
@@ -27,6 +27,10 @@ author:
     fullname: M. Wahl
     organization: Informed Control Inc.
     email: Mark.Wahl@informed-control.com
+ -
+    fullname: Norbert Klasen
+    organization: OpenText
+    email: <nklasen@opentext.com>
 
 normative:
   RFC4510:
@@ -37,6 +41,14 @@ normative:
   RFC2866:
   RFC3162:
   RFC4422:
+  W3C-TRACE-CONTEXT-2:
+    title: "Trace Context Level 2"
+    author:
+      org: W3C
+    date: 2024-03-28
+    seriesinfo:
+      "W3C": "Candidate Recommendation Draft"
+    target: https://www.w3.org/TR/2024/CRD-trace-context-2-20240328/
   ISO10646:
     title: "Universal Multiple-Octet Coded Character Set (UCS) - Architecture and Basic Multilingual Plane, ISO/IEC 10646-1: 1993"
     author:
@@ -214,11 +226,45 @@ The session identifier control uses `controlType` `1.3.6.1.4.1.21008.108.63.1`, 
 }
 ~~~
 
+## Formats for use with trace context propagation
+
+These format can be used in LDAP clients that take part in distributed tracing.
+
+With `formatOID` set to `1.3.6.1.4.1.21008.108.63.1.4`, `sessionTrackingIdentifier` SHOULD contain the value of the `traceparent` header, as defined in Section 3.2 of {{W3C-TRACE-CONTEXT-2}}.
+
+With `formatOID` set to `1.3.6.1.4.1.21008.108.63.1.5`, `sessionTrackingIdentifier` SHOULD contain the value of the `tracestate` header, as defined in Section 3.3 of {{W3C-TRACE-CONTEXT-2}}.
+
+For either format, `sessionSourceIp` and `sessionSourceName` SHOULD be zero length.
+
+### Example
+
+If an application server sends a modify request to create an entry user, it might include a session identifier control representing its current trace context. Before encoding, the `SessionIdentifierControlValue` ASN.1 value is:
+
+~~~asn.1
+{  -- SEQUENCE
+   "",                                                         -- sessionSourceIp
+   "",                                                         -- sessionSourceName
+   "1.3.6.1.4.1.21008.108.63.1.4",                             -- formatOID
+   "00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-01"   -- sessionTrackingIdentifier
+}
+~~~
+
+The session identifier control uses `controlType` `1.3.6.1.4.1.21008.108.63.1`, criticality FALSE, and a `controlValue` containing the BER encoding of the `SessionIdentifierControlValue`. The control in the LDAP request resembles:
+
+~~~asn.1
+{  -- SEQUENCE
+   "1.3.6.1.4.1.21008.108.63.1", -- controlType
+   FALSE,                        -- criticality
+   '305b04000400041c312e332e362e312e342e312e32313030382e3130382e
+    36332e312e34043730302d34626639326633353737623334646136613363
+    653932396430653065343733362d30306630363761613062613930326237
+    2d3031'H                     -- controlValue
+}
+~~~
 
 # Conventions and Definitions
 
 {::boilerplate bcp14-tagged}
-
 
 # Security Considerations {#security}
 
