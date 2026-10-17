@@ -5,15 +5,17 @@ category: info
 
 docname: draft-ldap-session-tracking-latest
 submissiontype: independent  # also: "independent", "editorial", "IAB", or "IRTF"
-number: 3
+# number: 3
 date: draft-ldap-session-tracking-date
 # consensus: true
 v: 3
 # area: AREA
 # workgroup: Network Working Group
 keyword:
- - LDAP
- - Session Tracking
+  - LDAP
+  - Session Tracking
+  - Distributed Tracing
+  - Trace Context Propagation
 venue:
 #  group: WG
 #  type: Working Group
@@ -23,24 +25,22 @@ venue:
   latest: "https://klasen.github.io/draft-ldap-session-tracking/draft-ldap-session-tracking.html"
 
 author:
- -
-    fullname: M. Wahl
-    organization: Informed Control Inc.
-    email: Mark.Wahl@informed-control.com
- -
-    fullname: Norbert Klasen
-    organization: OpenText
-    email: <nklasen@opentext.com>
+ - fullname: M. Wahl
+   organization: Microsoft
+   email: mwahl@microsoft.com
+ - fullname: Norbert Klasen
+   organization: OpenText
+   email: nklasen@opentext.com
 
 normative:
-  RFC4510:
-  RFC2119:
   RFC1884:
-  RFC3629:
+  RFC2119:
   RFC2865:
   RFC2866:
   RFC3162:
+  RFC3629:
   RFC4422:
+  RFC4510:
   W3C-TRACE-CONTEXT-2:
     title: "Trace Context Level 2"
     author:
@@ -64,6 +64,7 @@ normative:
 
 informative:
   RFC4370:
+---
 
 ...
 
@@ -95,7 +96,7 @@ This document defines a control for LDAPv3 operation requests. The control carri
 
 A typical enterprise deployment in which an application indirectly relies on a directory might resemble:
 
-~~~
+~~~txt
   +------+     +--------+       +----------+      +--------+
   | User |     | Appli- |       | Auth./   | LDAP |  LDAP  |
   |      +-----+ cation +-------+ Identity +------+ Server |
@@ -205,7 +206,7 @@ This format does not distinguish multiple sessions or periods of interaction by 
 
 If an application server `app.example.com` at IPv4 address `192.0.2.1` has authenticated a user named `bloggs`, and sends a search request to obtain public service configuration information for that user, it might include a session identifier control. Before encoding, the `SessionIdentifierControlValue` ASN.1 value is:
 
-~~~
+~~~asn.1
 {  -- SEQUENCE
    "192.0.2.1",                    -- sessionSourceIp
    "app.example.com",              -- sessionSourceName
@@ -216,13 +217,13 @@ If an application server `app.example.com` at IPv4 address `192.0.2.1` has authe
 
 The session identifier control uses `controlType` `1.3.6.1.4.1.21008.108.63.1`, criticality FALSE, and a `controlValue` containing the BER encoding of the `SessionIdentifierControlValue`. The control in the LDAP request resembles:
 
-~~~
+~~~asn.1
 {  -- SEQUENCE
    "1.3.6.1.4.1.21008.108.63.1", -- controlType
    FALSE,                        -- criticality
    '304204093139322e302e322e31040f6170702e6578616d706c652e636f6d
-  041c312e332e362e312e342e312e32313030382e3130382e36332e312e33
-  0406626c6f676773'H           -- controlValue
+    041c312e332e362e312e342e312e32313030382e3130382e36332e312e33
+    0406626c6f676773'H           -- controlValue
 }
 ~~~
 
@@ -285,7 +286,7 @@ This control is to be registered as follows:
 - Subject: Request for LDAP Protocol Mechanism Registration
 - Object Identifier: `1.3.6.1.4.1.21008.108.63.1`
 - Description: Session Tracking Identifier
-- Person and email address to contact for further information: Mark Wahl <Mark.Wahl@informed-control.com>
+- Person and email address to contact for further information: Mark Wahl <mwahl@microsoft.com>
 - Usage: Control
 - Specification: (I-D) RFC XXXX
 - Author/Change Controller: Mark Wahl
