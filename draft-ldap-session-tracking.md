@@ -243,10 +243,11 @@ If an application server sends a modify request to create an entry user, it migh
 
 ~~~asn.1
 {  -- SEQUENCE
-   "",                                                         -- sessionSourceIp
-   "",                                                         -- sessionSourceName
-   "1.3.6.1.4.1.21008.108.63.1.4",                             -- formatOID
-   "00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-01"   -- sessionTrackingIdentifier
+   "",                             -- sessionSourceIp
+   "",                             -- sessionSourceName
+   "1.3.6.1.4.1.21008.108.63.1.4", -- formatOID
+   "00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-01"
+                                   -- sessionTrackingIdentifier
 }
 ~~~
 
