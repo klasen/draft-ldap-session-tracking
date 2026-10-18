@@ -33,8 +33,8 @@ author:
    email: nklasen@opentext.com
 
 normative:
-  RFC1884:
   RFC2119:
+  RFC2373:
   RFC2865:
   RFC2866:
   RFC3162:
@@ -117,7 +117,7 @@ There is no standard way to describe a session. Session identifier formats diffe
 
 The value of the session identifier control contains four pieces of information: `sessionSourceIp`, `sessionSourceName`, `formatOID`, and `sessionTrackingIdentifier`.
 
-`sessionSourceIp` is a US-ASCII string encoding of an IPv4 or IPv6 address {{RFC1884}} for the component that generated the session tracking identifier. This field lets a directory server administrator identify the system managing the session, even without a log parser for the identifier's format. There is no guarantee of IP-level connectivity between the directory server and that system. If Network Address Translation is used, this address might be from a private-use range.
+`sessionSourceIp` is a US-ASCII string encoding of an IPv4 or IPv6 address {{RFC2373}} for the component that generated the session tracking identifier. This field lets a directory server administrator identify the system managing the session, even without a log parser for the identifier's format. There is no guarantee of IP-level connectivity between the directory server and that system. If Network Address Translation is used, this address might be from a private-use range.
 
 `sessionSourceName` is a UTF-8 {{RFC3629}} encoded ISO 10646 {{ISO10646}} text string describing the component that generated the identifier. Its format is determined by `formatOID`; examples include a hostname, a distinguished name, or a web service address. It identifies the server using a name other than its IP address and is not intended to identify an end user.
 
