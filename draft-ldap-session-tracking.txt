@@ -534,8 +534,7 @@ Table of Contents
    *  Description: Session Tracking Identifier
 
    *  Person and email address to contact for further information: Mark
-      Wahl Mark.Wahl@informed-control.com (mailto:Mark.Wahl@informed-
-      control.com)
+      Wahl mwahl@microsoft.com (mailto:mwahl@microsoft.com)
 
    *  Usage: Control
 
@@ -625,4 +624,4 @@ Authors' Addresses
 
    Norbert Klasen
    OpenText
-   Email: <nklasen@opentext.com>
+   Email: nklasen@opentext.com
