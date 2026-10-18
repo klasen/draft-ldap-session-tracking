@@ -1270,7 +1270,7 @@ svg {
       </h2>
 <p id="section-2-1">There is no standard way to describe a session. Session identifier formats differ, and each application that tracks sessions typically has its own semantics. The control is therefore extensible to accommodate different application concepts and formats.<a href="#section-2-1" class="pilcrow">¶</a></p>
 <p id="section-2-2">The value of the session identifier control contains four pieces of information: <code>sessionSourceIp</code>, <code>sessionSourceName</code>, <code>formatOID</code>, and <code>sessionTrackingIdentifier</code>.<a href="#section-2-2" class="pilcrow">¶</a></p>
-<p id="section-2-3"><code>sessionSourceIp</code> is a US-ASCII string encoding of an IPv4 or IPv6 address <span>[<a href="#RFC1884" class="cite xref">RFC1884</a>]</span> for the component that generated the session tracking identifier. This field lets a directory server administrator identify the system managing the session, even without a log parser for the identifier's format. There is no guarantee of IP-level connectivity between the directory server and that system. If Network Address Translation is used, this address might be from a private-use range.<a href="#section-2-3" class="pilcrow">¶</a></p>
+<p id="section-2-3"><code>sessionSourceIp</code> is a US-ASCII string encoding of an IPv4 or IPv6 address <span>[<a href="#RFC2373" class="cite xref">RFC2373</a>]</span> for the component that generated the session tracking identifier. This field lets a directory server administrator identify the system managing the session, even without a log parser for the identifier's format. There is no guarantee of IP-level connectivity between the directory server and that system. If Network Address Translation is used, this address might be from a private-use range.<a href="#section-2-3" class="pilcrow">¶</a></p>
 <p id="section-2-4"><code>sessionSourceName</code> is a UTF-8 <span>[<a href="#RFC3629" class="cite xref">RFC3629</a>]</span> encoded ISO 10646 <span>[<a href="#ISO10646" class="cite xref">ISO10646</a>]</span> text string describing the component that generated the identifier. Its format is determined by <code>formatOID</code>; examples include a hostname, a distinguished name, or a web service address. It identifies the server using a name other than its IP address and is not intended to identify an end user.<a href="#section-2-4" class="pilcrow">¶</a></p>
 <p id="section-2-5"><code>formatOID</code> is a US-ASCII dotted-decimal representation of an OBJECT IDENTIFIER. It identifies the scheme used for <code>sessionSourceName</code> and <code>sessionTrackingIdentifier</code>. As there is no standard scheme for session information, many formats are expected. This document defines three.<a href="#section-2-5" class="pilcrow">¶</a></p>
 <p id="section-2-6"><code>sessionTrackingIdentifier</code> is a UTF-8 encoded ISO 10646 string. The identifier <span class="bcp14">SHOULD</span> be limited to whitespace and printable characters. Non-printing and control characters <span class="bcp14">SHOULD NOT</span> be used, and byte sequences that are not valid UTF-8 <span class="bcp14">MUST NOT</span> be used. The format identified by <code>formatOID</code> defines the identifier's syntax and semantics, including how values are compared for equality. An identifier might be a decimal counter, a username, a timestamp, a fragment of XML, or another value.<a href="#section-2-6" class="pilcrow">¶</a></p>
@@ -1406,10 +1406,11 @@ END
 <div class="lang-asn.1 sourcecode" id="section-3.3.1-2">
 <pre>
 {  -- SEQUENCE
-   "",                                                         -- sessionSourceIp
-   "",                                                         -- sessionSourceName
-   "1.3.6.1.4.1.21008.108.63.1.4",                             -- formatOID
-   "00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-01"   -- sessionTrackingIdentifier
+   "",                             -- sessionSourceIp
+   "",                             -- sessionSourceName
+   "1.3.6.1.4.1.21008.108.63.1.4", -- formatOID
+   "00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-01"
+                                   -- sessionTrackingIdentifier
 }
 </pre><a href="#section-3.3.1-2" class="pilcrow">¶</a>
 </div>
@@ -1502,13 +1503,13 @@ appear in all capitals, as shown here.<a href="#section-4-1" class="pilcrow">¶<
         <dd>
 <span class="refAuthor">ISO/IEC</span>, <span class="refTitle">"Universal Multiple-Octet Coded Character Set (UCS) - Architecture and Basic Multilingual Plane, ISO/IEC 10646-1: 1993"</span>, <time datetime="1993" class="refDate">1993</time>. </dd>
 <dd class="break"></dd>
-<dt id="RFC1884">[RFC1884]</dt>
-        <dd>
-<span class="refAuthor">Hinden, R., Ed.</span> and <span class="refAuthor">S. Deering, Ed.</span>, <span class="refTitle">"IP Version 6 Addressing Architecture"</span>, <span class="seriesInfo">RFC 1884</span>, <span class="seriesInfo">DOI 10.17487/RFC1884</span>, <time datetime="1995-12" class="refDate">December 1995</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc1884">https://www.rfc-editor.org/rfc/rfc1884</a>&gt;</span>. </dd>
-<dd class="break"></dd>
 <dt id="RFC2119">[RFC2119]</dt>
         <dd>
 <span class="refAuthor">Bradner, S.</span>, <span class="refTitle">"Key words for use in RFCs to Indicate Requirement Levels"</span>, <span class="seriesInfo">BCP 14</span>, <span class="seriesInfo">RFC 2119</span>, <span class="seriesInfo">DOI 10.17487/RFC2119</span>, <time datetime="1997-03" class="refDate">March 1997</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc2119">https://www.rfc-editor.org/rfc/rfc2119</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC2373">[RFC2373]</dt>
+        <dd>
+<span class="refAuthor">Hinden, R.</span> and <span class="refAuthor">S. Deering</span>, <span class="refTitle">"IP Version 6 Addressing Architecture"</span>, <span class="seriesInfo">RFC 2373</span>, <span class="seriesInfo">DOI 10.17487/RFC2373</span>, <time datetime="1998-07" class="refDate">July 1998</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc2373">https://www.rfc-editor.org/rfc/rfc2373</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC2865">[RFC2865]</dt>
         <dd>
